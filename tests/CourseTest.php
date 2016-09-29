@@ -5,12 +5,19 @@
     */
     require_once "src/Course.php";
     require_once 'src/Student.php';
-    $server = 'mysql:host=localhost:8889;dbname=university_test';
+    $server = 'mysql:host=localhost;dbname=university_test';
     $username = 'root';
     $password = 'root';
+    $DB = new PDO($server, $username, $password);
 
     class CourseTest extends PHPUnit_Framework_TestCase
     {
+        protected function tearDown()
+        {
+          Course::deleteAll();
+          Student::deleteAll();
+        }
+
         function testGetId()
         {
             //Arrange
@@ -56,13 +63,12 @@
             $this->assertEquals("H101", $result);
         }
 
-        function test_GetCourseName()
+        function testGetCourseName()
         {
             //Arrange
-            $id = 1;
             $name = "History";
             $course_number = "H101";
-            $test_course = new Course($name, $course_number, $id);
+            $test_course = new Course($name, $course_number, $id=null);
 
             //Act
             $result = $test_course->getCourseName();
@@ -71,19 +77,74 @@
             $this->assertEquals($name, $result);
         }
 
-        function test_GetCourseNumber()
+        function testGetCourseNumber()
         {
             //Arrange
-            $id = 1;
             $name = "History";
             $course_number = "H101";
-            $test_course = new Course($name, $course_number, $id);
+            $test_course = new Course($name, $course_number, $id=null);
 
             //Act
             $result = $test_course->getCourseNumber();
 
             //Assert
             $this->assertEquals($course_number, $result);
+        }
+
+        function testSave()
+        {
+            //Arrange
+            $name = "History";
+            $course_number = "H101";
+            $test_course = new Course($name, $course_number, $id=null);
+
+            //Act
+            $test_course->save();
+
+            //Assert
+            $result = Course::getAll();
+            $this->assertEquals($test_course, $result[0]);
+        }
+
+        function testGetAll()
+        {
+            //Arrange
+            $name = "History";
+            $course_number = "H101";
+            $test_course = new Course($name, $course_number, $id=null);
+            $test_course->save();
+
+            $name2 = "Art";
+            $course_number2 = "AR201";
+            $test_course2 = new Course($name2, $course_number2, $id2=null);
+            $test_course2->save();
+
+            //Act
+            $result = Course::getAll();
+
+            //Assert
+            $this->assertEquals([$test_course, $test_course2], $result);
+        }
+
+        function testDeleteAll()
+        {
+            //Arrange
+            $name = "History";
+            $course_number = "H101";
+            $test_course = new Course($name, $course_number, $id=null);
+            $test_course->save();
+
+            $name2 = "Water the lawn";
+            $course_number2 = "AR201";
+            $test_course2 = new Course($name2, $course_number2, $id2=null);
+            $test_course2->save();
+
+            //Act
+            Course::deleteAll();
+
+            //Assert
+            $result = Course::getAll();
+            $this->assertEquals([], $result);
         }
     }
 

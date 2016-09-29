@@ -36,5 +36,30 @@
       {
           $this->date_enrolled = (string) $new_date_enrolled;
       }
+
+      function save()
+      {
+        $GLOBALS['DB']->exec("INSERT INTO students (name, date_enrolled) VALUES ('{$this->getStudentName()}', '{$this->getDateEnrolled()}');");
+        $this->id = $GLOBALS['DB']->lastInsertId();
+      }
+
+      static function getAll()
+      {
+          $returned_students = $GLOBALS['DB']->query("SELECT * FROM students;");
+          $students = array();
+          foreach($returned_students as $student) {
+              $name = $student['name'];
+              $date_enrolled = $student['date_enrolled'];
+              $id = $student['id'];
+              $new_student = new Student($name, $date_enrolled, $id);
+              array_push($students, $new_student);
+          }
+          return $students;
+      }
+
+      static function deleteAll()
+      {
+        $GLOBALS['DB']->exec("DELETE FROM students;");
+      }
     }
 ?>

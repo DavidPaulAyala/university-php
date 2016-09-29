@@ -10,7 +10,7 @@
 
     $app['debug'] = true;
 
-    $server = 'mysql:host=localhost;dbname=database_name';
+    $server = 'mysql:host=localhost;dbname=airline';
     $username = 'root';
     $password = 'root';
     $DB = new PDO($server, $username, $password);
