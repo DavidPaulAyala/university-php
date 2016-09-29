@@ -1,11 +1,11 @@
-# _{Application Name}_
-#### _{Date of current version}_
+# _{University Registrar}_
+#### _{09-28-2016}_
 
 #### By _**David Ayala**_
 
 ## Description
 
-_info_
+_Lists of students and courses_
 
 ## Specifications
 
@@ -53,15 +53,3 @@ MySQL_
 *This product can be used in accordance with the provisions under its MIT license.*
 
 copyright (c) 2016 **_David Ayala_**
-
-### Notes
-
-_Copy Directory -> Make New Directory:_
-
-`cp -r srcdirectory newdirectory`
-
-`rm -rf .git`
-
-`cd newdirectory`
-
-`git init`
