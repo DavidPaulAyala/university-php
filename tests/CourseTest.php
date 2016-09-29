@@ -146,6 +146,68 @@
             $result = Course::getAll();
             $this->assertEquals([], $result);
         }
+
+        function testFindCourses()
+        {
+            //Arrange
+            $name = "History";
+            $course_number = "H101";
+            $test_course = new Course($name, $course_number, $id=null);
+            $test_course->save();
+
+            $name2 = "Art";
+            $course_number2 = "AR201";
+            $test_course2 = new Course($name2, $course_number2, $id2=null);
+            $test_course2->save();
+
+            //Act
+            $result = Course::find($test_course->getId());
+
+            //Assert
+            $this->assertEquals($test_course, $result);
+
+        }
+
+        function testUpdate()
+        {
+            //Arrange
+            $name = "History";
+            $course_number = "H101";
+            $test_course = new Course($name, $course_number, $id=null);
+            $test_course->save();
+
+            $new_name = "Math";
+
+            //Act
+            $test_course->update($new_name);
+
+            //Assert
+            $this->assertEquals ("Math", $test_course->getCourseName());
+
+        }
+
+        function testDeleteCourse()
+        {
+            //Arrange
+            $name = "History";
+            $course_number = "H101";
+            $test_course = new Course($name, $course_number, $id=null);
+            $test_course->save();
+
+            $name2 = "Art";
+            $course_number2 = "AR201";
+            $test_course2 = new Course($name2, $course_number2, $id2=null);
+            $test_course2->save();
+
+            //Act
+
+            $test_course->delete();
+
+            //Assert
+
+            $this->assertEquals([$test_course2], Course::getAll());
+
+        }
     }
 
 

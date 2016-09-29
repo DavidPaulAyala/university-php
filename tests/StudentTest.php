@@ -143,6 +143,68 @@
           $result = Student::getAll();
           $this->assertEquals([], $result);
       }
+
+      function testFindStudents()
+      {
+          //Arrange
+          $name = "Pete Holmes";
+          $date_enrolled = "09-15-14";
+          $test_student = new Student($name, $date_enrolled, $id=null);
+          $test_student->save();
+
+          $name2 = "Bill Simmons";
+          $date_enrolled2 = "08-20-15";
+          $test_student2 = new Student($name2, $date_enrolled2, $id2=null);
+          $test_student2->save();
+
+          //Act
+          $result = Student::find($test_student->getId());
+
+          //Assert
+          $this->assertEquals($test_student, $result);
+
+      }
+
+      function testUpdate()
+      {
+          //Arrange
+          $name = "Pete Holmes";
+          $date_enrolled = "09-15-14";
+          $test_student = new Student($name, $date_enrolled, $id=null);
+          $test_student->save();
+
+          $new_name = "Hank Kingsley";
+
+          //Act
+          $test_student->update($new_name);
+
+          //Assert
+          $this->assertEquals ("Hank Kingsley", $test_student->getStudentName());
+
+      }
+
+      function testDeleteStudent()
+      {
+          //Arrange
+          $name = "Pete Holmes";
+          $date_enrolled = "09-15-14";
+          $test_student = new Student($name, $date_enrolled, $id=null);
+          $test_student->save();
+
+          $name2 = "Bill Simmons";
+          $date_enrolled2 = "08-20-15";
+          $test_student2 = new Student($name2, $date_enrolled2, $id2=null);
+          $test_student2->save();
+
+          //Act
+
+          $test_student->delete();
+
+          //Assert
+
+          $this->assertEquals([$test_student2], Student::getAll());
+
+      }
     }
 
 

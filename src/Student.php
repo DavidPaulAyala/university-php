@@ -61,5 +61,29 @@
       {
         $GLOBALS['DB']->exec("DELETE FROM students;");
       }
+
+      static function find($search_id)
+      {
+          $found_student = null;
+          $students = Student::getAll();
+          foreach($students as $student) {
+              $student_id = $student->getId();
+              if ($student_id == $search_id) {
+                $found_student = $student;
+              }
+          }
+          return $found_student;
+      }
+
+      function update($new_name)
+      {
+          $GLOBALS['DB']->exec("UPDATE students SET name = '{$new_name}' WHERE id = {$this->getId()};");
+          $this->setStudentName($new_name);
+      }
+
+      function delete()
+      {
+          $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");
+      }
     }
 ?>
